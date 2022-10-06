@@ -12,7 +12,7 @@ public class User {
 	private String email;
 	private String password;
 	
-	private List<String> contacts;
+	private List<MongoContacts> contacts;
 	
 	public String getId() {
 		return id;
@@ -39,12 +39,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<String> getContacts() {
+	public List<MongoContacts> getContacts() {
 		return contacts;
 	}
-	public void setContacts(List<String> contacts) {
+	public void setContacts(List<MongoContacts> contacts) {
 		this.contacts = contacts;
 	}
+	
 	
 	
 }

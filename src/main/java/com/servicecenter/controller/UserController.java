@@ -8,11 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.servicecenter.entities.MongoContacts;
 import com.servicecenter.entities.User;
 import com.servicecenter.exception.Response;
 import com.servicecenter.serviceimpl.UserServiceImpl;
@@ -58,5 +60,19 @@ public class UserController {
 			return Response.generateResponse("Not Delete...",HttpStatus.INTERNAL_SERVER_ERROR,null);
 	}
 	
-	 
+	@PostMapping("/addcontact/{userId}")
+	public ResponseEntity<Response> addContact(@ModelAttribute MongoContacts conatct,@PathVariable("userId") String userId){
+		if(this.userServiceImpl.addContact(conatct,userId))
+			return Response.generateResponse("Contact Added...",HttpStatus.CREATED,null);
+		else
+			return Response.generateResponse("Contact Not Added...",HttpStatus.INTERNAL_SERVER_ERROR,conatct);
+	}
+	
+	@DeleteMapping("/deletecontact")
+	public ResponseEntity<Response> deleteContact(@RequestParam("userId") String userId,@RequestParam("number") String number){
+		if(this.userServiceImpl.deleteContact(userId, number))
+			return Response.generateResponse("Contact deleted...",HttpStatus.OK,null);
+		else
+			return Response.generateResponse("Contact Not Deleted...",HttpStatus.INTERNAL_SERVER_ERROR,null);
+	}
 }
